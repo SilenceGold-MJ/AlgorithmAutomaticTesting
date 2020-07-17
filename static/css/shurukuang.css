@@ -1,0 +1,23 @@
+.form-row{
+     margin-left: 500px;
+
+}
+.submit-row{
+         margin-left:  550px;
+}
+
+        .c{
+            margin: 70px auto;
+            margin-left: 200px;
+}
+           .jinru{
+            margin-left:100px;
+           }
+
+           .tb{
+               background-color: #ffffff
+           }
+           .btn{
+ background-color:transparent;  /* 背景色透明 */
+ border:0px;       /* 边框取消 */
+}

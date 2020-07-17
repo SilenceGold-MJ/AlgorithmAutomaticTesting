@@ -1,0 +1,62 @@
+
+<html>
+<head>
+        <title>测试结果</title>
+            <script type="text/javascript" src="../static/js/echarts.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="../static/css/daohang.css">
+     <link rel="stylesheet" type="text/css" href="../static/css/pic.css">
+
+
+</head>
+<body>
+                    <div class="top">
+                   <center>
+                    <ul>
+                    <li><a href="SelectPage.html?content=GetSummaryData">测试结果</a></li>
+                    <li><a href="SelectPage.html?content=GetResultsData">汇总数据</a></li>
+                    <li><a href="SelectPage.html?content=GetSheetData">测试记录</a></li>
+
+                    <li>
+                        <a >添加测试信息</a>
+                        <ul>
+                        <li><a href="AddTestinfo.html">添加算法信息</a></li>
+                        <li><a href="SampleBatch.html">添加样本信息</a></li>
+                        </ul>
+                    </li>
+                      </ul>
+                    </center>
+            </div>
+
+
+            <div align="left" class="p">
+                <p>
+                    算法测试版本号：{{dic.data.datalist.0.Test_Version}} </br>
+                    测试样本的批次：{{dic.data.datalist.0.Test_Batch}} </br>
+                    测试文物类型数：{{dic.data.datalist.0.Total_Type}} </br>
+                    文物识别总次数：{{dic.data.datalist.0.Sum_Numbers}} </br>
+                    识别准确的次数：{{dic.data.datalist.0.Sum_Pass}} </br>
+                    识别错误的次数：{{dic.data.datalist.0.Sum_Fail}} </br>
+                    准确率已达标数：{{dic.data.datalist.0.Standard}} </br>
+                    准确率不达标数：{{dic.data.datalist.0.UnStandard}} </br>
+                    文物识别达标率：{{dic.data.datalist.0.StandardRate}} </br>
+                    准确率达标线为：{{dic.data.datalist.0.threshold}} </br>
+                    算法测试时间为：{{dic.data.datalist.0.Test_Time}} </br>
+                </p>
+             </div>
+
+                              {% for i in dic.html %}
+
+    <object style="border:0px"  type="text/x-scriptlet" data="../static/html/{{i}}" width=100%  height=530 >
+
+
+    </object>
+                {% endfor %}
+
+
+                            </div>
+
+
+
+</body>
+
+</html>

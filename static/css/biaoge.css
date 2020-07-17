@@ -1,0 +1,32 @@
+
+
+			table {
+				width: 90%;
+				background: #ccc;
+				margin: 50px auto;
+				border-collapse: collapse;/*border-collapse:collapse合并内外边距(去除表格单元格默认的2个像素内外边距*/
+			}
+			th,td {
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
+				border: 1px solid #010301;
+			}
+			th {
+				background: #f2f5fe;
+				font-weight: normal;
+			}
+			tr {
+				background: #ffffff;
+			}
+			tr:hover {
+				background: #b0d6cf;
+			}
+			td a {
+				color: #06f;
+				text-decoration: none;
+			}
+			td a:hover {
+				color: #06f;
+				text-decoration: underline;
+			}

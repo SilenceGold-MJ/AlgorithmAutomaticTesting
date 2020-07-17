@@ -1,0 +1,65 @@
+<html>
+   <head>
+           <title>选择查询</title>
+           <link rel="stylesheet" type="text/css" href="../static/css/daohang.css">
+
+
+       </head>
+        <body>
+                     <div class="top">
+                   <center>
+                    <ul>
+                    <li><a href="SelectPage.html?content=GetSummaryData">测试结果</a></li>
+                    <li><a href="SelectPage.html?content=GetResultsData">汇总数据</a></li>
+                    <li><a href="SelectPage.html?content=GetSheetData">测试记录</a></li>
+
+                    <li>
+                        <a >添加测试信息</a>
+                        <ul>
+                        <li><a href="AddTestinfo.html">添加算法信息</a></li>
+                        <li><a href="SampleBatch.html">添加样本信息</a></li>
+                        </ul>
+                    </li>
+                      </ul>
+                    </center>
+            </div>
+
+
+
+
+    <form action="" method="post">
+         {% csrf_token %}
+    <div  class="form-row">
+            <input class="tb"  type="text" style="display:none" id="content" name="content"  >
+            <p>算法版本：<input class="tb"  list="Test_Version" name="Test_Version" placeholder="请选择算法版本">
+            <datalist id="Test_Version">Test_Version
+                {% for i in dic.Test_Version %}
+                <option value={{i}}>
+                {% endfor %}
+            </datalist>
+</p>
+            <p>样本批次：<input class="tb"  list="Test_Batch" name="Test_Batch" placeholder="请选择样本批次">
+            <datalist id="Test_Batch">Test_Batch
+                {% for i in dic.Test_Batch %}
+                <option value={{i}}>
+                {% endfor %}
+
+            </datalist>
+</p>
+
+<input type="submit" value="进入" >
+</div>
+
+        </form>
+        <script>
+    var url=decodeURI(window.location .href);
+                var aa=url.indexOf('=');
+                if (aa>-1){
+                url=url.substring(aa+1);
+                    document.getElementById("content").value=url;
+                }
+</script>
+
+        </body>
+
+</html>
