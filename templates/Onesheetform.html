@@ -5,6 +5,7 @@
             <script type="text/javascript" src="../static/js/echarts.min.js"></script>
             <link rel="stylesheet" type="text/css" href="../static/css/daohang.css">
      <link rel="stylesheet" type="text/css" href="../static/css/pic.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/shurukuang.css">
 
 
 </head>
@@ -12,9 +13,10 @@
                     <div class="top">
                    <center>
                     <ul>
-                    <li><a href="SelectPage.html?content=GetSummaryData">测试结果</a></li>
-                    <li><a href="SelectPage.html?content=GetResultsData">汇总数据</a></li>
-                    <li><a href="SelectPage.html?content=GetSheetData">测试记录</a></li>
+{#                    <li><a href="SelectPage.html?content=GetSummaryData">测试结果</a></li>#}
+                     <li><a href="ViewResults.html">查看结果</a></li>
+{#                    <li><a href="SelectPage.html?content=GetResultsData">汇总数据</a></li>#}
+{#                    <li><a href="SelectPage.html?content=GetSheetData">测试记录</a></li>#}
 
                     <li>
                         <a >添加测试信息</a>
@@ -41,8 +43,36 @@
                     文物识别达标率：{{dic.data.datalist.0.StandardRate}} </br>
                     准确率达标线为：{{dic.data.datalist.0.threshold}} </br>
                     算法测试时间为：{{dic.data.datalist.0.Test_Time}} </br>
+                     <a href={{dic.data.Excleptah}} download="">导出数据库到Excle</a>
                 </p>
-             </div>
+                <form action="" method="post" enctype="multipart/form-data">
+     {% csrf_token %}
+
+    <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Version}} name='Test_Version'  >
+    <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Batch}} name="Test_Batch"  >
+            <input class="tb"  type="text" style="display:none" value="GetResultsData" name="GetData"  >
+        <input type="submit" value="查看汇总数据" class="btn">
+
+</form>
+                     <form action="" method="post" enctype="multipart/form-data">
+     {% csrf_token %}
+
+    <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Version}} name='Test_Version'  >
+    <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Batch}} name="Test_Batch"  >
+        <input class="tb"  type="text" style="display:none" value="GetSheetData" name="GetData"  >
+        <input type="submit" value="查看测试记录" class="btn">
+
+</form>
+
+
+                         </div>
+
+
+
+
+
+
+
 
                               {% for i in dic.html %}
 

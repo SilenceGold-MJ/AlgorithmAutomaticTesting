@@ -13,7 +13,7 @@ urlpatterns = [
     path('AddTestinfo.html',views.AddTestinfo),
     path('SampleBatch.html',views.SampleBatch),
     path('',views.navigation),#navigation.html
-
+    path('ViewResults.html',views.ViewResults)
 
 
 ]

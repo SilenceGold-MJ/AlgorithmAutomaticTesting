@@ -73,9 +73,6 @@ def SelectPage(request):
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
         elif 'threshold' in request.POST:
-
-
-
             logger.info("'threshold	' in request.POST:%s"%request.POST)
             dic={
             'test_version': request.POST.get("Test_Version"),
@@ -156,3 +153,114 @@ def navigation(request):
 
     return render(request, "navigation.html", {"dic": ''})
 
+def ViewResults(request):
+
+
+    dic={}
+    data = API().APIall('GetSummary', dic)
+
+
+    if request.method == 'POST':
+        logger.info("'threshold	' in request.POST:%s" % request.POST)
+        if 'threshold' in request.POST:
+
+            dic={
+            'test_version': request.POST.get("Test_Version"),
+            'test_batch' : request.POST.get("Test_Batch"),
+            }
+
+            connect='GetSummaryData'#'GetSummaryData'
+            logger.info("ViewResults(request):%s"%dic)
+            data = API().APIall(connect, dic)
+            dic_zql=API().APIall('Linechart', dic)#准确率散点图基础数据
+            dic_dbl=API().APIall('Proportion_zb', dic)#准确率饼状分布图基础数据
+            logger.info("ViewResults(request):%s"%'请求接口')
+            logger.info("ViewResults(request):%s"%data)
+            logger.info("ViewResults(request) dic_zql:%s" % dic_zql)
+            if data['counts']!=0:
+                data.update({"dic_dbl":dic_dbl})
+                logger.info("添加dic_dbl数据:%s" % data)
+                list=Fanchar().Generating(data)
+                htmlname = 'zhexiantu_zql.html'
+                ScatterRender().scatter_render(dic_zql['datalist'], htmlname)
+                list.insert(0,htmlname)
+                dic_excle={
+                    "filename": '文物算法准确率测试报告.xlsx',
+                    'Test_Version': request.POST.get("Test_Version"),
+                    'Test_Batch': request.POST.get("Test_Batch"),
+                }
+                Excledata = API().APIall('DownloadExcle', dic_excle)['datalist']
+                logger.info(Excledata)
+                filebase64 = Excledata['filebase64']
+                filename = dic_excle['filename']
+                save_path = os.getcwd() + "\\static\\file\\" + filename
+                with open(save_path, 'wb') as f:
+                    f.write(base64.b64decode(filebase64))
+                    # return render(request, 'Onesheetform.html', {"dic": ''})
+                    data.update({"Excleptah":'../static/file/%s'%filename})
+                    dic_out={'html': list, 'data': data}
+                    logger.info(dic_out)
+                    return render(request, 'Onesheetform.html', {"dic": dic_out})
+            else:
+                return HttpResponse("暂无数据，可能正在在测试数据中……")
+
+
+        if 'GetData' in request.POST:
+            logger.info("ViewResults(request):%s"%request.POST)
+            dic={
+            'test_version': request.POST.get("Test_Version"),
+            'test_batch' : request.POST.get("Test_Batch")
+            }
+            connect=request.POST.get("GetData")#'GetSummaryData'
+            logger.info("ViewResults(request):%s"%dic)
+            data = API().APIall(connect, dic)
+            logger.info("ViewResults(request):%s"%'请求接口')
+            logger.info("ViewResults(request):%s"%data)
+            if data['counts']!=0:
+                return render(request, 'tetshtml.html',{"dic":data})
+            else:
+                return HttpResponse("暂无数据，可能正在在测试数据中……")
+
+        elif 'Accuracy' in request.POST :
+
+            logger.info("SelectPage(request):%s"%request.POST)
+            dic={
+            'test_version': request.POST.get("Test_Version"),
+            'test_batch' : request.POST.get("Test_Batch"),
+                'Code': request.POST.get("Code"),
+            }
+            connect='GetOnesheet'#'GetSummaryData'
+            logger.info("SelectPage(request):%s"%dic)
+            data = API().APIall(connect, dic)
+            logger.info("SelectPage(request):%s"%'请求接口')
+            logger.info("SelectPage(request):%s"%data)
+            if data['counts']!=0:
+                return render(request, 'tetshtml.html',{"dic":data})
+            else:
+                return HttpResponse("暂无数据，可能正在在测试数据中……")
+
+        elif 'Image_Path' in request.POST:
+            logger.info("SelectPage(request):%s" % request.POST)
+
+            dic={
+                'test_version': request.POST.get("Test_Version"),
+                'test_batch': request.POST.get("Test_Batch"),
+                'Code': request.POST.get("Code"),
+                "Test_Chart": request.POST.get("Test_Chart"),
+            }
+            connect='GetPic'#'GetSummaryData'
+            logger.info("SelectPage(request):%s"%dic)
+            data = API().APIall(connect, dic)
+            logger.info("SelectPage(request):%s"%'请求接口')
+            logger.info("SelectPage(request):%s"%data)
+
+            imagepath=data['datalist'][0]['Image_Path'].split('/')
+            data['datalist'][0].update({'Image_Path':'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])})
+            logger.info(data)
+
+            if data['counts']!=0:
+                return render(request, 'pic.html',{"dic":data['datalist'][0]})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
+            else:
+                return HttpResponse("暂无数据，可能正在在测试数据中……")
+
+    return render(request,'ViewResults.html' ,{"dic": data})
