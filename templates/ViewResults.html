@@ -25,6 +25,8 @@
                         <li><a href="SampleBatch.html">添加样本信息</a></li>
                         </ul>
                     </li>
+                         <li><a href="Sample_list.html">测试样本</a></li>
+                         <li><a href="Algorithm_version_list.html">算法列表</a></li>
                       </ul>
                     </center>
             </div>
@@ -35,32 +37,43 @@
 
 <table border="1">
   <tr>
-      {% for key,value in dic.datalist.0.items %}
 
-        <th>{{ key }}</th>
+      {% for key in entry_name_lies %}
+
+        <th>{{ key.0 }}</th>
         {% endfor %}
-  <th>查看详情</th>
-
+      {% for key in operation %}
+        <th>{{ key.0 }}</th>
+        {% endfor %}
   </tr>
   <tr>
               {% for i in dic.datalist %}
 			<tr>
             <form action='' method="post">
-                        {% for key,value in i.items %}
-
+                         {% for key,value in i.items %}
                             {% csrf_token %}
-                            <input class="tb"  type="text" style="display:none" value={{ value }} name={{ key }}  >
+                            <input class="tb"  type="text" style="display:none" value={{value}} name={{ key }}  >
                             <td>{{ value }}</td>
+                             {% endfor %}
+                        {% for value in operation %}
+                         <td> <input type="submit" value={{ value.0 }} class="btn" name={{ value.1 }}></td>
                              {% endfor %}
 
 
-                   <td> <input type="submit" value="查看" class="btn"></td>
+
+
+
+
+
+
                    </form>
                 </tr>
 
     {% endfor %}
   </tr>
+
 </table>
+
         </div>
 </body>
 </html>

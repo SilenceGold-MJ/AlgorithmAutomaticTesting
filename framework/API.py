@@ -18,11 +18,10 @@ class API():
     def APIall(self,connect, dic):
         url = "%s:%s/%s"%(address,port,connect)
         payload = json.dumps(dic)
-        logger.info( url )
-        logger.info(payload)
+        logger.info( "url:%s"%url )
+        logger.info("payload:%s"%payload)
         headers = {'Content-Type': 'application/json'}
         response = requests.request("POST", url, headers=headers, data=payload)
-        logger.info(response.text)
         data = json.loads(response.text)
-        logger.info(data)
+        logger.info('return:%s'%data)
         return data

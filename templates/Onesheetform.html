@@ -25,6 +25,8 @@
                         <li><a href="SampleBatch.html">添加样本信息</a></li>
                         </ul>
                     </li>
+                                                 <li><a href="Sample_list.html">测试样本</a></li>
+                         <li><a href="Algorithm_version_list.html">算法列表</a></li>
                       </ul>
                     </center>
             </div>
@@ -51,7 +53,7 @@
     <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Version}} name='Test_Version'  >
     <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Batch}} name="Test_Batch"  >
             <input class="tb"  type="text" style="display:none" value="GetResultsData" name="GetData"  >
-        <input type="submit" value="查看汇总数据" class="btn">
+        <input type="submit" value="查看汇总数据" class="btn" name="GetResultsData" >
 
 </form>
                      <form action="" method="post" enctype="multipart/form-data">
@@ -60,7 +62,7 @@
     <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Version}} name='Test_Version'  >
     <input class="tb"  type="text" style="display:none" value={{dic.data.datalist.0.Test_Batch}} name="Test_Batch"  >
         <input class="tb"  type="text" style="display:none" value="GetSheetData" name="GetData"  >
-        <input type="submit" value="查看测试记录" class="btn">
+        <input type="submit" value="查看测试记录" class="btn"  name="GetSheetData">
 
 </form>
 
