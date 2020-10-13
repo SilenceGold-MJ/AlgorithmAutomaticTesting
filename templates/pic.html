@@ -11,21 +11,21 @@
                     <div class="top">
                    <center>
                     <ul>
-{#                    <li><a href="SelectPage.html?content=GetSummaryData">测试结果</a></li>#}
-                     <li><a href="ViewResults.html">查看结果</a></li>
-{#                    <li><a href="SelectPage.html?content=GetResultsData">汇总数据</a></li>#}
-{#                    <li><a href="SelectPage.html?content=GetSheetData">测试记录</a></li>#}
-
+                         {% for value in head.function %}
+                             <li><a href={{ value.0 }}>{{ value.1 }}</a></li>
+                             {% endfor %}
                     <li>
-                        <a >添加测试信息</a>
-                        <ul>
-                        <li><a href="AddTestinfo.html">添加算法信息</a></li>
-                        <li><a href="SampleBatch.html">添加样本信息</a></li>
-                        </ul>
+                            {% for i in head.drop_down %}
+                                <a >{{i.title}}</a>
+                                <ul>
+                                 {% for value in i.data %}
+                             <li><a href={{ value.0 }}>{{ value.1 }}</a></li>
+                             {% endfor %}
+                                                        </ul>
+                    {% endfor %}
                     </li>
-                                                                         <li><a href="Sample_list.html">测试样本</a></li>
-                         <li><a href="Algorithm_version_list.html">算法列表</a></li>
                       </ul>
+
                     </center>
             </div>
 

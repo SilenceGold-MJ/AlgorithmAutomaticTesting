@@ -12,112 +12,17 @@ from framework.ScatteRender import ScatterRender
 from framework.getImage import Pathlsit
 from framework.logger import Logger
 logger = Logger(logger="views").getlog()
-'''
-def SelectPage(request):
 
-    if request.method == 'POST':
-        if  "Test_Version" in request.POST and 'Test_Batch' in request.POST and "content" in request.POST :
+head={
+    'function':[['ViewResults.html','查看结果'],["Sample_list.html",'样本列表'],["Algorithm_version_list.html",'算法列表']],
+    'drop_down':[{"title":"添加测试信息","data":[["AddTestinfo.html",'添加算法信息'],["SampleBatch.html",'添加样本信息']]}]
+}
 
-            logger.info("SelectPage(request):%s"%request.POST)
-            dic={
-            'test_version': request.POST.get("Test_Version"),
-            'test_batch' : request.POST.get("Test_Batch")
-            }
-            connect=request.POST.get("content")#'GetSummaryData'
-            logger.info("SelectPage(request):%s"%dic)
-            data = API().APIall(connect, dic)
-            logger.info("SelectPage(request):%s"%'请求接口')
-            logger.info("SelectPage(request):%s"%data)
-            if data['counts']!=0:
-                return render(request, 'tetshtml.html',{"dic":data})
-            else:
-                return HttpResponse("暂无数据，可能正在在测试数据中……")
-
-        elif  "Test_Version" in request.POST and 'Test_Batch' in request.POST and 'Accuracy' in request.POST :
-
-            logger.info("SelectPage(request):%s"%request.POST)
-            dic={
-            'test_version': request.POST.get("Test_Version"),
-            'test_batch' : request.POST.get("Test_Batch"),
-                'Code': request.POST.get("Code"),
-            }
-            connect='GetOnesheet'#'GetSummaryData'
-            logger.info("SelectPage(request):%s"%dic)
-            data = API().APIall(connect, dic)
-            logger.info("SelectPage(request):%s"%'请求接口')
-            logger.info("SelectPage(request):%s"%data)
-            if data['counts']!=0:
-                return render(request, 'tetshtml.html',{"dic":data})
-            else:
-                return HttpResponse("暂无数据，可能正在在测试数据中……")
-
-        elif 'Image_Path' in request.POST:
-            logger.info("SelectPage(request):%s" % request.POST)
-
-            dic={
-                'test_version': request.POST.get("Test_Version"),
-                'test_batch': request.POST.get("Test_Batch"),
-                'Code': request.POST.get("Code"),
-                "Test_Chart": request.POST.get("Test_Chart"),
-            }
-            connect='GetPic'#'GetSummaryData'
-            logger.info("SelectPage(request):%s"%dic)
-            data = API().APIall(connect, dic)
-            logger.info("SelectPage(request):%s"%'请求接口')
-            logger.info("SelectPage(request):%s"%data)
-
-            imagepath=data['datalist'][0]['Image_Path'].split('/')
-            data['datalist'][0].update({'Image_Path':'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])})
-            logger.info(data)
-
-            if data['counts']!=0:
-                return render(request, 'pic.html',{"dic":data['datalist'][0]})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
-            else:
-                return HttpResponse("暂无数据，可能正在在测试数据中……")
-        elif 'threshold' in request.POST:
-            logger.info("'threshold	' in request.POST:%s"%request.POST)
-            dic={
-            'test_version': request.POST.get("Test_Version"),
-            'test_batch' : request.POST.get("Test_Batch"),
-            }
-            connect='GetSummaryData'#'GetSummaryData'
-            logger.info("SelectPage(request):%s"%dic)
-            data = API().APIall(connect, dic)
-            dic_zql=API().APIall('Linechart', dic)#准确率散点图基础数据
-            dic_dbl=API().APIall('Proportion_zb', dic)#准确率饼状分布图基础数据
-            logger.info("SelectPage(request):%s"%'请求接口')
-            logger.info("SelectPage(request):%s"%data)
-            logger.info("SelectPage(request) dic_zql:%s" % dic_zql)
-            if data['counts']!=0:
-                data.update({"dic_dbl":dic_dbl})
-                logger.info("添加dic_dbl数据:%s" % data)
-                list=Fanchar().Generating(data)
-                htmlname = 'zhexiantu_zql.html'
-                ScatterRender().scatter_render(dic_zql['datalist'], htmlname)
-                list.insert(0,htmlname)
-
-                #return render(request, 'Onesheetform.html', {"dic": ''})
-                return render(request, 'Onesheetform.html',{"dic":{'html':list,'data':data}})
-            else:
-                return HttpResponse("暂无数据，可能正在在测试数据中……")
-
-
-    dic=API().GetStart()
-
-    logger.info("SelectPage(request):%s"%'打开SelectPage')
-    return render(request, "SelectPage.html", {"dic": dic})
-def tetshtml(request):
-    logger.info(" tetshtml(request):%s" % '打开tetshtml.html')
-    return render(request, "tetshtml.html")
-def navigation(request):
-
-    return render(request, "navigation.html", {"dic": ''})
-'''
 def homepage(request):
 
     logger.info(" homepage(request):%s" % '打开homepage.html')
 
-    return render(request, "homepage.html")
+    return render(request, "homepage.html", {"dic": '',"head":head})
 
 def AddTestinfo(request):
     if request.method == 'POST':
@@ -137,7 +42,7 @@ def AddTestinfo(request):
 
 
 
-    return render(request, "AddTestinfo.html", {"dic": ''})
+    return render(request, "AddTestinfo.html", {"dic": '',"head":head})
 
     # logger.info(" AddTestinfo:%s" % '打开AddTestinfo.html')
     # return render(request, "AddTestinfo.html", {"dic": ''})
@@ -162,7 +67,7 @@ def SampleBatch(request):
                 return HttpResponse(data['message'])
 
 
-    return render(request, "SampleBatch.html", {"dic": ''})
+    return render(request, "SampleBatch.html", {"dic": '',"head":head})
 
 
 
@@ -177,7 +82,7 @@ def ViewResults(request):
     data = API().APIall('Getform', dic_summary)
 
     operation = [['查看', 'see'], ['删除', 'del']]
-    entry_name_lies=[['序列','id'],['样本批次','Test_Batch'],['算法版本','Test_Version'],['测试时间','Test_Time'],['样本类型数','Total_Type'],['测试总数量', 'Sum_Numbers'],['通过数', 'Sum_Pass'],['失败数', 'Sum_Fail'],['达标数', 'Standard'],['未达标数', 'UnStandard'],['达标率阀值', 'threshold'],['达标率', 'StandardRate']]
+    entry_name_lies=[['序列','id'],['样本批次','Test_Batch'],['算法版本','Test_Version'],['测试时间','Test_Time'],['样本类型数','Total_Type'],['测试总数量', 'Sum_Numbers'],['通过数', 'Sum_Pass'],['失败数', 'Sum_Fail'],['达标类型数', 'Standard'],['未达标类型数', 'UnStandard'],['达标率阀值', 'threshold'],['达标率', 'StandardRate']]
     #operation = [['删除','del']]
     #operation = []
     if request.method == 'POST':
@@ -218,7 +123,7 @@ def ViewResults(request):
                     data.update({"Excleptah":'../static/file/%s'%filename})
                     dic_out={'html': list, 'data': data}
                     logger.info(dic_out)
-                    return render(request, 'Onesheetform.html', {"dic": dic_out})
+                    return render(request, 'Onesheetform.html', {"dic": dic_out,"head":head})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
 
@@ -232,7 +137,7 @@ def ViewResults(request):
             API().APIall('del_summary_data', dic)  # 删除一行结果
 
             data = API().APIall('Getform', dic_summary)
-            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 
         if 'GetData' in request.POST and 'GetResultsData' in request.POST:#在单个测试结果界面进入测试结果汇总页
             logger.info("ViewResults(request)-GetData:%s"%request.POST)
@@ -256,7 +161,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -283,7 +188,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -314,7 +219,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -339,11 +244,11 @@ def ViewResults(request):
             logger.info(data)
 
             if data['counts']!=0:
-                return render(request, 'pic.html',{"dic":data['datalist'][0]})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
+                return render(request, 'pic.html',{"dic":data['datalist'][0],"head":head})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
             else:
-                return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+                return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 def Sample_list(request):#样本列表
     dic_sample_batch = {
         "table_name": 'sample_batch',
@@ -379,9 +284,9 @@ def Sample_list(request):#样本列表
 
             data = API().APIall('Getform', dic_sample_batch)
             return render(request, 'ViewResults.html',
-                          {"dic": data, 'operation': operation, 'entry_name_lies': entry_name_lies})  #
+                          {"dic": data, 'operation': operation, 'entry_name_lies': entry_name_lies,"head":head})  #
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 
 
 def Algorithm_version_list(request):#算法列表
@@ -420,7 +325,7 @@ def Algorithm_version_list(request):#算法列表
             API().APIall('del_summary_data', dic)  # 删除一行结果
 
             data = API().APIall('Getform', dic_table)
-            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
 
