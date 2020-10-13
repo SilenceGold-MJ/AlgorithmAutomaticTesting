@@ -125,7 +125,7 @@ def AddTestinfo(request):
         if  "version" in request.POST :
             dic = {
                     "version": request.POST.get("version", None).replace(' ',''),
-                   "release_time": request.POST.get("release_time", None).replace(' ',''),
+                   "Test_Time": request.POST.get("Test_Time", None).replace(' ',''),
                    "developer": request.POST.get("developer", None).replace(' ',''),
                    }
             if NnNone_dic(dic)==0:
@@ -150,7 +150,7 @@ def SampleBatch(request):
                 "batch": request.POST.get("batch", None).replace(' ',''),
                 # "types_num": request.POST.get("types_num"),
                 # "total_num": request.POST.get("total_num"),
-                "batch_date": request.POST.get("batch_date", None).replace(' ',''),
+                "Test_Time": request.POST.get("Test_Time", None).replace(' ',''),
                 "batch_path": request.POST.get("batch_path", None).replace(' ',''),
             }
             logger.info(dic)
@@ -171,6 +171,8 @@ def ViewResults(request):
 
     dic_summary = {
         "table_name": 'summary',
+        'Latest_name':'Test_Version'
+
     }
     data = API().APIall('Getform', dic_summary)
 
@@ -345,10 +347,11 @@ def ViewResults(request):
 def Sample_list(request):#样本列表
     dic_sample_batch = {
         "table_name": 'sample_batch',
+        'Latest_name': 'Test_Time'
     }
     data = API().APIall('Getform', dic_sample_batch)
     #operation = [['查看', 'see'], ['删除', 'del']]
-    entry_name_lies=[['序列','id'],['样本批次','batch'],['样本类型数','types_num'],['总数量','total_num'],['添加时间', 'batch_date'],['路径', 'batch_path']]
+    entry_name_lies=[['序列','id'],['样本批次','batch'],['样本类型数','types_num'],['总数量','total_num'],['添加时间', 'Test_Time'],['路径', 'batch_path']]
     operation = [['删除','del']]
     #operation = []
 
@@ -359,7 +362,7 @@ def Sample_list(request):#样本列表
                 "batch": request.POST.get("batch", None),
                 # "types_num": request.POST.get("types_num"),
                 # "total_num": request.POST.get("total_num"),
-                "batch_date": request.POST.get("batch_date", None),
+                "Test_Time": request.POST.get("Test_Time", None),
                 "batch_path": request.POST.get("batch_path", None),
             }
             logger.info(dic)
@@ -385,10 +388,12 @@ def Algorithm_version_list(request):#算法列表
 
     dic_table = {
         "table_name": 'algorithm_version',
+        'Latest_name': 'Test_Time'
+
     }
     data = API().APIall('Getform', dic_table)
     #operation = [['查看', 'see'], ['删除', 'del']]
-    entry_name_lies=[['序列','id'],['版本号','version'],['添加/发布时间','release_time'],['开发者','developer']]
+    entry_name_lies=[['序列','id'],['版本号','version'],['添加/发布时间','Test_Time'],['开发者','developer']]
     operation = [['删除','del']]
     #operation = []
 
@@ -399,7 +404,7 @@ def Algorithm_version_list(request):#算法列表
                 "batch": request.POST.get("batch", None),
                 # "types_num": request.POST.get("types_num"),
                 # "total_num": request.POST.get("total_num"),
-                "batch_date": request.POST.get("batch_date", None),
+                "Test_Time": request.POST.get("Test_Time", None),
                 "batch_path": request.POST.get("batch_path", None),
             }
             logger.info(dic)
