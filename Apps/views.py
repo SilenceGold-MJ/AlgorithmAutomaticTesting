@@ -22,7 +22,7 @@ def homepage(request):
 
     logger.info(" homepage(request):%s" % '打开homepage.html')
 
-    return render(request, "homepage.html", {"dic": '',"head":head})
+    return render(request, "homepage.html", {"dic": '',"head":head,"Page_title":'主页查询'})
 
 def AddTestinfo(request):
     if request.method == 'POST':
@@ -42,7 +42,7 @@ def AddTestinfo(request):
 
 
 
-    return render(request, "AddTestinfo.html", {"dic": '',"head":head})
+    return render(request, "AddTestinfo.html", {"dic": '',"head":head,"Page_title":'添加算法'})
 
     # logger.info(" AddTestinfo:%s" % '打开AddTestinfo.html')
     # return render(request, "AddTestinfo.html", {"dic": ''})
@@ -67,7 +67,7 @@ def SampleBatch(request):
                 return HttpResponse(data['message'])
 
 
-    return render(request, "SampleBatch.html", {"dic": '',"head":head})
+    return render(request, "SampleBatch.html", {"dic": '',"head":head,"Page_title":'添加样本'})
 
 
 
@@ -123,7 +123,7 @@ def ViewResults(request):
                     data.update({"Excleptah":'../static/file/%s'%filename})
                     dic_out={'html': list, 'data': data}
                     logger.info(dic_out)
-                    return render(request, 'Onesheetform.html', {"dic": dic_out,"head":head})
+                    return render(request, 'Onesheetform.html', {"dic": dic_out,"head":head,"Page_title":'详细结果报告'})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
 
@@ -137,7 +137,7 @@ def ViewResults(request):
             API().APIall('del_summary_data', dic)  # 删除一行结果
 
             data = API().APIall('Getform', dic_summary)
-            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看结果'})#
 
         if 'GetData' in request.POST and 'GetResultsData' in request.POST:#在单个测试结果界面进入测试结果汇总页
             logger.info("ViewResults(request)-GetData:%s"%request.POST)
@@ -161,7 +161,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head,"Page_title":'测试汇总页'})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -188,7 +188,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head,"Page_title":'测试记录'})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -219,7 +219,7 @@ def ViewResults(request):
                 # operation = [['删除','del']]
                 # operation = []
                 return render(request, 'ViewResults.html',
-                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head})  #
+                              {"dic": data, 'operation': [operation[0]], 'entry_name_lies': entry_name_lies,"head":head,"Page_title":'测试记录'})  #
                 #return render(request, 'tetshtml.html',{"dic":data})
             else:
                 return HttpResponse("暂无数据，可能正在在测试数据中……")
@@ -244,11 +244,11 @@ def ViewResults(request):
             logger.info(data)
 
             if data['counts']!=0:
-                return render(request, 'pic.html',{"dic":data['datalist'][0],"head":head})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
+                return render(request, 'pic.html',{"dic":data['datalist'][0],"head":head,"Page_title":'图片信息'})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
             else:
-                return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+                return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'测试记录——不确定'})#
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看结果'})#
 def Sample_list(request):#样本列表
     dic_sample_batch = {
         "table_name": 'sample_batch',
@@ -284,9 +284,9 @@ def Sample_list(request):#样本列表
 
             data = API().APIall('Getform', dic_sample_batch)
             return render(request, 'ViewResults.html',
-                          {"dic": data, 'operation': operation, 'entry_name_lies': entry_name_lies,"head":head})  #
+                          {"dic": data, 'operation': operation, 'entry_name_lies': entry_name_lies,"head":head,"Page_title":'查看样本'})  #
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看样本'})#
 
 
 def Algorithm_version_list(request):#算法列表
@@ -294,7 +294,6 @@ def Algorithm_version_list(request):#算法列表
     dic_table = {
         "table_name": 'algorithm_version',
         'Latest_name': 'Test_Time'
-
     }
     data = API().APIall('Getform', dic_table)
     #operation = [['查看', 'see'], ['删除', 'del']]
@@ -325,7 +324,7 @@ def Algorithm_version_list(request):#算法列表
             API().APIall('del_summary_data', dic)  # 删除一行结果
 
             data = API().APIall('Getform', dic_table)
-            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+            return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看算法'})#
 
-    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head})#
+    return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看算法'})#
 

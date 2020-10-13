@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>查看结果</title>
+ <title>{{ Page_title }}</title>
     <link rel="stylesheet" type="text/css" href="../static/css/daohang.css">
     <link rel="stylesheet" type="text/css" href="../static/css/biaoge.css">
            <link rel="stylesheet" type="text/css" href="../static/css/shurukuang.css">
-
-
 </head>
 <body>
                     <div class="top">
@@ -37,9 +35,7 @@
 
 <table border="1">
   <tr>
-
       {% for key in entry_name_lies %}
-
         <th>{{ key.0 }}</th>
         {% endfor %}
       {% for key in operation %}
