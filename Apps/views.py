@@ -4,6 +4,9 @@ from django.shortcuts import render
 import json
 import os,time
 import base64
+from django.http import JsonResponse
+
+from django.http import HttpResponseRedirect
 from framework.NoNone import *
 from django.shortcuts import render, HttpResponse, redirect
 from framework.API import API
@@ -14,7 +17,7 @@ from framework.logger import Logger
 logger = Logger(logger="views").getlog()
 
 head={
-    'function':[['ViewResults.html','查看结果'],["Sample_list.html",'样本列表'],["Algorithm_version_list.html",'算法列表']],
+    'function':[['ViewResults.html','查看结果'],["Sample_list.html",'样本列表'],["Algorithm_version_list.html",'算法列表'],["SelectPage.html",'启动测试']],
     'drop_down':[{"title":"添加测试信息","data":[["AddTestinfo.html",'添加算法信息'],["SampleBatch.html",'添加样本信息']]}]
 }
 
@@ -244,7 +247,9 @@ def ViewResults(request):
             logger.info(data)
 
             if data['counts']!=0:
-                return render(request, 'pic.html',{"dic":data['datalist'][0],"head":head,"Page_title":'图片信息'})##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
+                pic_info={"dic":data['datalist'][0],'attribute':data['attribute'][0],"head":head,"Page_title":'图片信息'}
+                logger.info('pic_info:%s'%pic_info)
+                return render(request, 'pic.html',pic_info)##'../static/images/testpci/%s/%s'%(imagepath[-2],imagepath[-1])
             else:
                 return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'测试记录——不确定'})#
 
@@ -328,3 +333,31 @@ def Algorithm_version_list(request):#算法列表
 
     return render(request,'ViewResults.html' ,{"dic": data,'operation':operation,'entry_name_lies':entry_name_lies,"head":head,"Page_title":'查看算法'})#
 
+def SelectPage(request):
+    logger.info(" SelectPage(request):%s" % '打开SelectPage.html')
+    data = API().APIall('GetStart', {})
+    logger.info(data)
+
+    return render(request, "SelectPage.html", {"dic": data,"head":head,"Page_title":'启动测试'})
+
+
+
+def login_ajax_check(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')  # 通过'username'这个键拿到数据
+        password = request.POST.get('password')
+        dic_data={"username":username,'password':password}
+        logger.info(" login_ajax_check(request):%s" % '打开login_ajax.html')
+        #dic = {"dic_data": (dic_data)}
+        data = API().APIall('login_ajax_check', dic_data)
+        logger.info(data)
+
+        #若登录正确
+        if data['result_code'] == "0000":
+            return HttpResponseRedirect('/homepage.html')   #跳转界面到success界面
+
+        #登录错误:
+        else:
+            return render(request, "login_ajax_check.html")
+
+    return render(request, "login_ajax_check.html")

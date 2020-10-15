@@ -5,9 +5,10 @@ from django.urls import path
 
 
 urlpatterns = [
-    #path('SelectPage.html', views.SelectPage),
+    path('SelectPage.html', views.SelectPage),
     #path('Onesheetform.html',views.Onesheetform),
-    path('', views.homepage),
+    path('', views.login_ajax_check),
+    path('login_ajax_check.html', views.login_ajax_check),
     #path('tetshtml.html',views.tetshtml),
     path('homepage.html',views.homepage),
     path('AddTestinfo.html',views.AddTestinfo),

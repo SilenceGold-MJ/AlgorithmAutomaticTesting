@@ -1,0 +1,54 @@
+.page-icon{
+			margin:20px 0 0 0;
+			font-size:0; /*修复行内元素之间空隙间隔*/
+			text-align:center;
+            position:absolute;
+            top:90%;
+            left:50%;
+            transform: translate(-50%, -50%);
+
+		}
+		.page-icon a, .page-current, .page-disabled, .page-next{
+			border:1px solid #ccc;
+			border-radius:3px;
+			padding:4px 10px 5px;
+			font-size:14px; /*修复行内元素之间空隙间隔*/
+			margin-right:10px;
+		}
+		.page-icon a{
+			text-decoration:none;
+			color:#005aa0;
+		}
+		.page-icon a:hover{
+			background:#678193;
+			color:#FFFFFF;
+			border:1px solid #799093;
+		}
+		.page-current{
+			border:1px solid #678193;
+			color:#FFFFFF;
+			background:#799093;
+		}
+		.page-disabled{
+			color:#ccc;
+		}
+		.ellipsis{
+		   font-size:14px;
+		   border:none;
+		   margin-right:10px;
+		}
+		.page-next i, .page-disabled i{
+			cursor:pointer;
+			background:url("http://img.mukewang.com/547fdbc60001bab900880700.gif");
+			display:inline-block;
+			width:5px;
+			height:9px;
+		}
+		.page-disabled i{
+			background-position:-67px -608px;
+			margin-right:3px;
+		}
+		.page-next i{
+			background-position:-74px -608px;
+			margin-left:3px;
+		}
